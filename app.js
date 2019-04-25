@@ -3,6 +3,7 @@ const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const path = require('path');
 const mongoose = require('mongoose');
+const methodOverride = require('method-override');
 
 const app = express();
 
@@ -11,6 +12,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
 app.use(bodyParser.json());
+//method override for put request
+app.use(methodOverride('_method'));
 
 //connect to mongoose
 mongoose
@@ -58,6 +61,15 @@ app.get('/notes/add', (req, res) => {
   res.render('notes/add');
 });
 
+//edit note form
+app.get('/notes/edit/:id', (req, res) => {
+  Note.findOne({ _id: req.params.id }).then(note => {
+    res.render('notes/edit', {
+      note
+    });
+  });
+});
+
 //process form
 
 app.post('/notes', (req, res) => {
@@ -84,6 +96,30 @@ app.post('/notes', (req, res) => {
       res.redirect('/notes');
     });
   }
+});
+
+//Edit form process
+
+app.put('/notes/:id', (req, res) => {
+  Note.findOne({
+    _id: req.params.id
+  }).then(note => {
+    //new values;
+    (note.title = req.body.title), (note.details = req.body.details);
+
+    note.save().then(note => {
+      res.redirect('/notes');
+    });
+  });
+});
+
+//delete Note
+app.delete('/notes/:id', (req, res) => {
+  Note.deleteOne({
+    _id: req.params.id
+  }).then(() => {
+    res.redirect('/notes');
+  });
 });
 const PORT = 5000;
 
