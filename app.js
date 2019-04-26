@@ -66,7 +66,7 @@ app.set('view engine', '.hbs');
 
 //This is Index Route
 app.get('/', (req, res) => {
-  const title = 'Title';
+  const title = 'Keep Your Note Organised';
   res.render('index', {
     title
   });
