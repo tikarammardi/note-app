@@ -7,6 +7,10 @@ const methodOverride = require('method-override');
 const flash = require('connect-flash');
 const session = require('express-session');
 
+//load routes
+const notes = require('./routes/notes');
+const users = require('./routes/users');
+
 const app = express();
 
 // parse application/x-www-form-urlencoded
@@ -44,11 +48,6 @@ mongoose
   .then(() => console.log('Connected to MongoDB'))
   .catch(error => console.log(error));
 
-//load note MOdel
-
-require('./models/Notes');
-const Note = mongoose.model('notes');
-
 app.use(express.static(path.join(__dirname, 'public')));
 //Handlebars Middleware
 app.engine('.hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }));
@@ -66,6 +65,7 @@ app.get('/about', (req, res) => {
   res.render('about');
 });
 
+<<<<<<< HEAD
 //note index page
 
 app.get('/notes', (req, res) => {
@@ -147,6 +147,12 @@ app.delete('/notes/:id', (req, res) => {
     res.redirect('/notes');
   });
 });
+=======
+//use routes
+app.use('/notes', notes);
+app.use('/users', users);
+
+>>>>>>> master
 const PORT = 5000;
 
 app.listen(PORT, () => {
