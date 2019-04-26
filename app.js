@@ -6,10 +6,14 @@ const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const flash = require('connect-flash');
 const session = require('express-session');
+const passport = require('passport');
 
 //load routes
 const notes = require('./routes/notes');
 const users = require('./routes/users');
+
+//passport config
+require('./config/passport')(passport);
 
 const app = express();
 
@@ -30,6 +34,10 @@ app.use(
   })
 );
 
+//passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(flash());
 
 //global variables
@@ -38,7 +46,7 @@ app.use((req, res, next) => {
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg = req.flash('error_msg');
   res.locals.error = req.flash('error');
-
+  res.locals.user = req.user || null;
   next();
 });
 

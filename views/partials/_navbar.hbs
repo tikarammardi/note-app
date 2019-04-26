@@ -20,6 +20,14 @@
             </ul>
 
             <ul class="navbar-nav ml-auto">
+                {{#if user}}
+
+                <a class="btn btn-primary mr-2" href="/notes" class="nav-item">Note</a>
+                <a class="btn btn-primary" href="/notes/add" class="nav-item">Add Note</a>
+                <li class="nav-item">
+                    <a href="/users/logout" class="nav-link">Logout</a>
+                </li>
+                {{else}}
                 <li class="nav-item">
                     <a href="/users/login" class="nav-link">Login</a>
                 </li>
@@ -27,11 +35,11 @@
                 <li class="nav-item">
                     <a href="/users/register" class="nav-link">Register</a>
                 </li>
+                {{/if}}
             </ul>
 
 
-            <a class="btn btn-primary mr-2" href="/notes" class="nav-item">Note</a>
-            <a class="btn btn-primary" href="/notes/add" class="nav-item">Add Note</a>
+
 
 
 
